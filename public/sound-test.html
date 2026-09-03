@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceMog — Sound Test</title>
+<style>
+  body{background:#040303;color:#f0e9de;font-family:'Courier New',monospace;padding:24px;max-width:720px;margin:0 auto;}
+  h1{color:#e2222f;font-size:20px;letter-spacing:2px;text-transform:uppercase;}
+  h2{color:#7a7069;font-size:14px;letter-spacing:1px;text-transform:uppercase;margin-top:28px;border-bottom:1px solid #2b211f;padding-bottom:6px;}
+  .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  button{background:#171210;border:1px solid #2b211f;color:#f0e9de;padding:10px 16px;font-family:inherit;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;}
+  button:hover{border-color:#7a7069;}
+  button.playing{background:#7a0d13;border-color:#e2222f;}
+  .note{color:#7a7069;font-size:11px;margin-top:20px;line-height:1.7;}
+  .status{color:#7fd996;font-size:12px;margin-top:12px;}
+</style>
+</head>
+<body>
+<h1>VoiceMog — Sound Test</h1>
+<p class="note">Every sound ID from the manifest. Click to play. This verifies all battle/announcer/rank/achievement/notification sounds work.</p>
+<div id="groups"></div>
+<div class="status" id="status"></div>
+
+<script>
+const manifest = {};
+fetch('assets/audio/manifest.json').then(r=>r.json()).then(m=>{
+  Object.assign(manifest, m);
+  buildUI();
+}).catch(e=>{
+  document.getElementById('status').textContent = 'Failed to load manifest: ' + e.message;
+});
+
+function buildUI(){
+  const groups = {};
+  for(const [id, path] of Object.entries(manifest)){
+    if(id === '_comment' || !path) continue;
+    const cat = id.split('.')[0];
+    (groups[cat] = groups[cat] || []).push([id, path]);
+  }
+  const container = document.getElementById('groups');
+  for(const [cat, items] of Object.entries(groups)){
+    const h = document.createElement('h2');
+    h.textContent = cat;
+    container.appendChild(h);
+    const row = document.createElement('div');
+    row.className = 'row';
+    for(const [id, path] of items){
+      const btn = document.createElement('button');
+      btn.textContent = id;
+      btn.onclick = () => playSound(id, path, btn);
+      row.appendChild(btn);
+    }
+    container.appendChild(row);
+  }
+}
+
+let current = null;
+function playSound(id, path, btn){
+  if(current){ current.pause(); current = null; }
+  document.querySelectorAll('button.playing').forEach(b=>b.classList.remove('playing'));
+  const a = new Audio(path);
+  a.volume = 0.85;
+  a.onended = () => { btn.classList.remove('playing'); current = null; };
+  a.onerror = () => {
+    document.getElementById('status').textContent = `ERROR: ${id} failed to load (${path})`;
+    btn.classList.remove('playing');
+  };
+  a.play().then(()=>{
+    btn.classList.add('playing');
+    document.getElementById('status').textContent = `Playing: ${id} (${path})`;
+  }).catch(e=>{
+    document.getElementById('status').textContent = `ERROR: ${id} — ${e.message}`;
+  });
+  current = a;
+}
+</script>
+</body>
+</html>

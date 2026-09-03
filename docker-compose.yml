@@ -1,0 +1,42 @@
+# Local dev/test stack: the app + a throwaway local Postgres, so you can
+# run `docker compose up --build` with zero external accounts. Production
+# should point DATABASE_URL at a real (Neon/Supabase) database instead —
+# see server/.env.example and README.md.
+services:
+  voicemog:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgres://voicemog:voicemog@postgres:5432/voicemog
+      # Set this to your real domain(s) before exposing this publicly —
+      # see server/.env.example for why an empty value is a real gap.
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/healthz', r => process.exit(r.statusCode===200?0:1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=voicemog
+      - POSTGRES_PASSWORD=voicemog
+      - POSTGRES_DB=voicemog
+    volumes:
+      - voicemog-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U voicemog"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  voicemog-pg-data:

@@ -1,0 +1,20 @@
+{
+  "name": "voicemog-server",
+  "version": "1.0.0",
+  "description": "VoiceMog real-time matchmaking + battle server",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/run.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "pg": "^8.23.0",
+    "ws": "^8.18.0"
+  }
+}

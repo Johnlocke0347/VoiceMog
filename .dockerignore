@@ -1,0 +1,14 @@
+node_modules
+server/node_modules
+server/data
+server/.env
+.env
+.git
+.gitignore
+*.md
+Dockerfile
+docker-compose.yml
+.DS_Store
+sound effects
+click sound effects
+logo

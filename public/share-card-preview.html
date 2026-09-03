@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceMog — Share Card Preview</title>
+<style>
+  body{background:#0a0908;color:#f0e9de;font-family:'Courier New',monospace;padding:24px;max-width:900px;margin:0 auto;text-align:center;}
+  h1{color:#e2222f;font-size:18px;letter-spacing:2px;text-transform:uppercase;}
+  h2{color:#7a7069;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-top:34px;border-bottom:1px solid #2b211f;padding-bottom:6px;}
+  .note{color:#7a7069;font-size:12px;margin-bottom:20px;line-height:1.7;}
+  canvas{max-width:100%;border:1px solid #2b211f;box-shadow:0 0 40px rgba(226,34,47,.2);}
+  .caption{color:#7a7069;font-size:11px;margin-top:14px;}
+</style>
+</head>
+<body>
+<h1>Share Card Preview</h1>
+<p class="note">The real cards rendered with the exact code used in-game (ShareCard.battle / ShareCard.lobby).</p>
+<h2>1v1 Battle Card — you win</h2>
+<canvas id="c1" width="900" height="900"></canvas>
+<h2>1v1 Battle Card — you lose</h2>
+<canvas id="c2" width="900" height="900"></canvas>
+<h2>Lobby Results Card — 4 players</h2>
+<canvas id="c3" width="900" height="900"></canvas>
+<script src="js/sharecard.js"></script>
+<script>
+const P_ME  = { name:'MOGGER-A7K2', avatar:null, rank:'BASS BRUTE', elo:934, hz:85.3 };
+const P_OPP = { name:'DEEPVOICE99', avatar:null, rank:'VOCAL MENACE', elo:1247, hz:145.7 };
+const LOBBY = {
+  name: "Friday Night Arena",
+  players: [
+    { name:'Host',      avatar:null, rank:'BASS BRUTE',   elo:934,  hz:82.1, isWinner:true },
+    { name:'Guest2',    avatar:null, rank:'VOCAL MENACE', elo:1247, hz:118.4 },
+    { name:'Guest3',    avatar:null, rank:'GRUNTER',      elo:200,  hz:96.7 },
+    { name:'Guest4',    avatar:null, rank:'LOW FREQUENCY',elo:410,  hz:null },
+  ],
+};
+
+ShareCard.battle(document.getElementById('c1'), {
+  iWon: true, mode: 'RANKED 1V1', headline: 'MOGGED', sub: '60.4 Hz DIFFERENCE',
+  me: P_ME, opp: P_OPP,
+});
+ShareCard.battle(document.getElementById('c2'), {
+  iWon: false, mode: 'RANKED 1V1', headline: 'YOU GOT MOGGED.', sub: '23.9 Hz DIFFERENCE',
+  me: P_OPP, opp: P_ME,
+});
+ShareCard.lobby(document.getElementById('c3'), LOBBY);
+</script>
+</body>
+</html>

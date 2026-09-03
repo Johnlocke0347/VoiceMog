@@ -1,0 +1,13 @@
+node_modules/
+server/data/
+server/.env
+.env
+.DS_Store
+.aider*
+
+# Source asset archives — the processed copies live in public/assets/
+# (audio remapped into public/assets/audio/, logo into public/assets/logo.png).
+# Excluded to keep the deployed repo lean.
+sound effects/
+click sound effects/
+logo/

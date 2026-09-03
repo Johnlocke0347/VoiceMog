@@ -1,0 +1,51 @@
+{
+  "_comment": "Single source of truth for every sound the app can play. Code references IDs (e.g. 'battle.firstBlood'), never raw paths. A null path means: wired up and ready, just no file dropped in yet — playback silently no-ops. See audio/README.md for exactly what to add and where.",
+
+  "ui.click":              "assets/audio/ui/click.wav",
+  "ui.hover":               null,
+  "ui.back":                "assets/audio/ui/click.wav",
+  "ui.open":                "assets/audio/ui/open.wav",
+  "ui.close":               "assets/audio/ui/click.wav",
+  "ui.select":              "assets/audio/ui/select.wav",
+  "ui.error":               "assets/audio/ui/open.wav",
+  "ui.success":             "assets/audio/ui/select.wav",
+  "ui.toggle":              "assets/audio/ui/select.wav",
+  "ui.join":                "assets/audio/ui/select.wav",
+  "ui.create":              "assets/audio/ui/open.wav",
+  "ui.leave":               "assets/audio/ui/click.wav",
+  "ui.challenge":           "assets/audio/ui/open.wav",
+  "ui.friendRequest":       "assets/audio/ui/select.wav",
+
+  "battle.countdown3":      null,
+  "battle.countdown2":      null,
+  "battle.countdown1":      null,
+  "battle.fight":           "assets/audio/battle/fight.mp3",
+  "battle.recordingStart":  null,
+  "battle.analyzing":       null,
+  "battle.victory":         "assets/audio/announcer/first-blood.mp3",
+  "battle.defeat":          "assets/audio/battle/defeat.mp3",
+
+  "announcer.firstBlood":   "assets/audio/announcer/first-blood.mp3",
+  "announcer.doubleKill":   "assets/audio/announcer/double-kill.mp3",
+  "announcer.multiKill":    "assets/audio/announcer/multi-kill.mp3",
+  "announcer.killingSpree": "assets/audio/announcer/killing-spree.mp3",
+  "announcer.rampage":      "assets/audio/announcer/rampage.mp3",
+  "announcer.ultraKill":    "assets/audio/announcer/ultra-kill.mp3",
+  "announcer.monsterKill":  "assets/audio/announcer/monster-kill.mp3",
+  "announcer.unstoppable":  "assets/audio/announcer/unstoppable.mp3",
+  "announcer.godlike":      "assets/audio/announcer/godlike.mp3",
+
+  "rank.rankUp":            "assets/audio/rank/rank-up.mp3",
+  "rank.rankDown":          null,
+
+  "achievements.unlock":    "assets/audio/achievements/unlock.mp3",
+
+  "notifications.challengeComplete": null,
+  "notifications.personalRecord":    "assets/audio/notifications/personal-record.mp3",
+  "notifications.upset":             null,
+  "notifications.streakEnded":       null,
+
+  "lobby.create":           null,
+  "lobby.join":             null,
+  "lobby.full":             null
+}
