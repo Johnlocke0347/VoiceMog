@@ -53,17 +53,10 @@ function medianOf(arr){
 }
 
 // aggregateHz — the per-turn score. Hz is sampled every animation frame for
-// the full turn (~300 readings over 5 seconds), then aggregated into one
-// number: the mean of all per-moment readings after trimming the lowest and
-// highest 15%. The trim discards the spurious single-frame readings
-// autocorrelation can produce (octave slips, clicks, breath noise) so the
-// aggregate reflects the real voice across the whole turn, not one lucky
-// or unlucky instant.
+// the full turn (~300 readings over 5 seconds), then averaged into one
+// number: the arithmetic mean of all per-moment readings. This reflects the
+// player's voice across the whole turn, not one lucky or unlucky instant.
 function aggregateHz(arr){
   if(!arr || arr.length === 0) return null;
-  const sorted = [...arr].sort((a,b)=>a-b);
-  const cut = Math.floor(sorted.length * 0.15);
-  const kept = sorted.slice(cut, sorted.length - cut);
-  if(kept.length === 0) return sorted[Math.floor(sorted.length/2)];
-  return kept.reduce((s,v)=>s+v, 0) / kept.length;
+  return arr.reduce((s,v)=>s+v, 0) / arr.length;
 }
