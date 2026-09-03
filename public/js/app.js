@@ -287,7 +287,7 @@ function finishRecording(readings){
   if(audioCtx) audioCtx.close();
 
   let finalHz = null;
-  if(readings.length >= 5) finalHz = medianOf(readings);
+  if(readings.length >= 5) finalHz = aggregateHz(readings);
 
   if(!finalHz){
     // We still owe the server a value or the battle stalls — send a
@@ -902,7 +902,7 @@ async function startLobbyRecording(durationMs){
     if(performance.now() - startT < durationMs){ requestAnimationFrame(frame); }
     else {
       stream.getTracks().forEach(t=>t.stop()); ctx.close();
-      const hz = readings.length >= 5 ? medianOf(readings) : 200; // no signal — safe high default, not a win
+      const hz = readings.length >= 5 ? aggregateHz(readings) : 200; // no signal — safe high default, not a win
       dialLobby.setMode('locked'); dialLobby.setValue(hz);
       Net.send('lobby_submit_hz', { hz: Math.round(hz*10)/10 });
     }
